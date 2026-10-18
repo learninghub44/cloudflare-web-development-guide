@@ -99,3 +99,115 @@ html{scroll-padding-top:105px}
 .button,.guide-card,.comparison>div,.resource-list a,.callout{box-shadow:none}
 @media(max-width:850px){.hero-grid{grid-template-columns:minmax(0,1fr) 180px;gap:22px}.contents-feature-grid{grid-template-columns:1fr}.contents-feature{min-height:0}.service-grid{grid-template-columns:1fr}.contact-strip{align-items:flex-start;flex-direction:column}}
 @media(max-width:560px){.hero-grid{grid-template-columns:minmax(0,1fr)}.hero-profile{display:grid;grid-template-columns:84px 1fr;align-items:center;gap:12px;max-width:none;padding:9px}.hero-profile>img{width:84px;height:100px;aspect-ratio:auto;object-position:center 25%}.profile-caption{padding:5px}.hero h1{font-size:clamp(2.4rem,13vw,3.7rem)}.brand-logo{width:40px;height:40px}}
+
+
+/* Code Family brand polish: legible logo, balanced header, subtle wordmark watermarks */
+.site-header{
+  min-height:72px;
+  gap:20px;
+  background:#123e67;
+  border-bottom:1px solid #ffffff1c;
+}
+.brand{
+  flex:0 0 auto;
+  gap:0;
+  min-width:0;
+}
+.brand-logo{
+  display:block;
+  width:112px;
+  height:56px;
+  object-fit:contain;
+  border-radius:7px;
+  background:#fff;
+}
+.brand-tagline{
+  margin-left:13px;
+  padding-left:13px;
+  border-left:1px solid #ffffff45;
+  color:#e4f2f4;
+  font-size:.8rem;
+  font-weight:650;
+  letter-spacing:.025em;
+  white-space:nowrap;
+}
+.site-nav{
+  margin-left:auto;
+  gap:clamp(12px,1.8vw,24px);
+}
+.site-nav a{
+  font-size:.88rem;
+  font-weight:650;
+}
+.hero{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:#f4f8f8;
+}
+.hero::before{
+  content:"CODE FAMILY";
+  position:absolute;
+  z-index:-1;
+  right:-.035em;
+  top:10%;
+  color:#123e67;
+  opacity:.035;
+  font-size:clamp(5rem,14vw,13rem);
+  font-weight:900;
+  letter-spacing:-.075em;
+  line-height:.9;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.contents-intro,
+.web-services,
+.closing{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.contents-intro::after,
+.web-services::after,
+.closing::after{
+  content:"CODE FAMILY  •  CONNECT  •  GROW  •  INNOVATE";
+  position:absolute;
+  z-index:-1;
+  right:-.08em;
+  bottom:12px;
+  color:#123e67;
+  opacity:.045;
+  font-size:clamp(1.7rem,5vw,4.5rem);
+  font-weight:900;
+  letter-spacing:.04em;
+  line-height:1;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.web-services::after{color:#159e9a;opacity:.07}
+.closing::after{color:#fff;opacity:.07}
+.site-footer .brand-logo{
+  width:96px;
+  height:48px;
+}
+.footer-brand{display:inline-flex}
+@media(max-width:850px){
+  .site-header{gap:12px}
+  .brand-logo{width:98px;height:49px}
+  .brand-tagline{margin-left:10px;padding-left:10px;font-size:.74rem}
+  .site-nav{margin-left:0}
+}
+@media(max-width:560px){
+  .site-header{padding:9px 16px}
+  .brand-logo{width:84px;height:42px}
+  .brand-tagline{max-width:105px;white-space:normal;font-size:.68rem;line-height:1.35}
+  .hero::before{top:20%;right:-.1em;font-size:4.4rem}
+  .contents-intro::after,.web-services::after,.closing::after{
+    right:-.1em;
+    bottom:6px;
+    font-size:1.6rem;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .hero::before,.contents-intro::after,.web-services::after,.closing::after{scroll-behavior:auto}
+}
