@@ -15,3 +15,6 @@ if (menuButton && navigation) {
     });
   });
 }
+
+// Expand one guide section at a time is intentionally not enforced: readers can
+// open several troubleshooting answers while comparing their deployment logs.
