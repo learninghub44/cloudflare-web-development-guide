@@ -362,3 +362,42 @@ html{scroll-padding-top:105px}
     flex:1 1 100%;
   }
 }
+
+
+/* Reading-aware Code Family support prompt */
+.support-popover{
+  position:fixed;
+  z-index:1000;
+  right:clamp(14px,3vw,30px);
+  bottom:clamp(14px,3vw,30px);
+  width:min(390px,calc(100vw - 28px));
+  padding:25px;
+  color:#172b3b;
+  background:#fff;
+  border:1px solid #dce6e7;
+  border-top:4px solid #159e9a;
+  border-radius:10px;
+  box-shadow:0 16px 48px rgba(18,62,103,.16);
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .22s ease,transform .22s ease;
+}
+.support-popover[hidden]{display:none}
+.support-popover.is-visible{opacity:1;transform:translateY(0)}
+.support-popover .eyebrow{margin:0 32px 8px 0;color:#137f7d;font-size:.75rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.support-popover h2{margin:0 26px 9px 0;color:#123e67;font-size:1.35rem;line-height:1.2}
+.support-popover p:not(.eyebrow){margin:0 0 17px;color:#536371;font-size:.94rem;line-height:1.55}
+.support-popover-close{
+  position:absolute;top:10px;right:12px;
+  display:grid;place-items:center;width:34px;height:34px;
+  border:0;border-radius:50%;background:#f0f4f5;color:#123e67;
+  font-size:1.45rem;cursor:pointer;
+}
+.support-popover-actions{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+.support-popover-actions .button{justify-content:center;text-align:center}
+.support-later{padding:9px;border:0;background:transparent;color:#536371;font:inherit;cursor:pointer}
+.support-popover-close:focus-visible,.support-later:focus-visible,.support-popover a:focus-visible{outline:3px solid #159e9a;outline-offset:3px}
+@media(max-width:480px){
+  .support-popover{right:10px;bottom:10px;width:calc(100vw - 20px);padding:21px}
+}
+@media(prefers-reduced-motion:reduce){.support-popover{transition:none}}
