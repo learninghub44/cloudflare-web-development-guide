@@ -211,3 +211,154 @@ html{scroll-padding-top:105px}
 @media(prefers-reduced-motion:reduce){
   .hero::before,.contents-intro::after,.web-services::after,.closing::after{scroll-behavior:auto}
 }
+
+
+/* Code Family watermark system and flexible, editorial layouts */
+:root{
+  --watermark-ink:#123e67;
+  --watermark-accent:#159e9a;
+}
+/* Keep the brand present throughout the guide without competing with the content. */
+.docs-content>.section,
+.site-footer{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+}
+.docs-content>.section::before,
+.site-footer::before{
+  content:"CODE FAMILY";
+  position:absolute;
+  z-index:-1;
+  right:-.035em;
+  bottom:8px;
+  color:var(--watermark-ink);
+  opacity:.035;
+  font-size:clamp(3.5rem,8vw,7rem);
+  font-weight:900;
+  letter-spacing:-.065em;
+  line-height:1;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.docs-content>.section:nth-child(even)::before{
+  color:var(--watermark-accent);
+  opacity:.045;
+}
+.site-footer::before{
+  right:12px;
+  bottom:8px;
+  font-size:clamp(2.2rem,5vw,4rem);
+  opacity:.04;
+}
+/* Use flexible rows that wrap naturally instead of rigid card grids. */
+.cards,
+.comparison,
+.framework-grid,
+.check-grid,
+.resource-list,
+.contents-feature-grid,
+.service-grid,
+.feature-list{
+  display:flex;
+  flex-flow:row wrap;
+  align-items:stretch;
+  gap:18px;
+}
+.cards>.guide-card{
+  flex:1 1 230px;
+}
+.comparison>div,
+.framework-grid>div{
+  flex:1 1 280px;
+  min-width:0;
+}
+.check-grid>label{
+  flex:1 1 280px;
+  min-width:0;
+}
+.resource-list>a{
+  flex:1 1 280px;
+  min-width:0;
+}
+.contents-feature-grid>.contents-feature{
+  flex:1 1 250px;
+  min-width:0;
+}
+.service-grid>.service-card{
+  flex:1 1 230px;
+  min-width:0;
+}
+/* Reduce the boxed-in look: separate reading sections like handbook pages. */
+.docs-content>.section,
+.docs-content>.section.tinted{
+  border:0;
+  border-bottom:1px solid var(--line);
+  border-radius:0;
+  box-shadow:none;
+  background:transparent;
+}
+.docs-content>.section:last-child{
+  border-bottom:0;
+}
+.guide-card,
+.comparison>div,
+.framework-grid>div,
+.service-card,
+.contents-feature,
+.resource-list>a,
+.check-grid label{
+  border-radius:8px;
+  box-shadow:none;
+}
+.guide-card{
+  border-width:0 0 1px;
+  padding:20px 18px 22px;
+  background:transparent;
+}
+.comparison>div,
+.framework-grid>div,
+.service-card{
+  border-width:0 0 1px;
+  padding:20px 18px 22px;
+  background:transparent;
+}
+.contents-feature{
+  background:transparent;
+  border-width:0 0 1px;
+  padding:18px 8px;
+}
+.resource-list>a{
+  background:transparent;
+  border-width:0 0 1px;
+  border-radius:0;
+  padding:14px 8px;
+}
+.resource-list>a:hover{
+  background:#eaf5f4;
+}
+.contact-strip{
+  border-radius:8px;
+  box-shadow:none;
+}
+@media(max-width:850px){
+  .cards,
+  .comparison,
+  .framework-grid,
+  .check-grid,
+  .resource-list,
+  .contents-feature-grid,
+  .service-grid,
+  .feature-list{
+    gap:12px;
+  }
+  .cards>.guide-card,
+  .comparison>div,
+  .framework-grid>div,
+  .check-grid>label,
+  .resource-list>a,
+  .contents-feature-grid>.contents-feature,
+  .service-grid>.service-card{
+    flex:1 1 100%;
+  }
+}
