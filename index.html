@@ -15,7 +15,7 @@
   <a class="brand" href="#top"><span class="brand-mark">CT</span><span>Chris Tech<small>Cloudflare Web Guide</small></span></a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
   <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-    <a href="#start">Start</a><a href="#pages">Pages</a><a href="#workers">Workers</a><a href="#frameworks">Frameworks</a><a href="#email">Email</a><a href="#storage">R2 & storage</a><a href="#data">D1 & data</a><a href="#ai">AI tools</a><a href="#edge-tools">Other services</a><a href="#operations">Operations</a><a href="#production">Go live</a>
+    <a href="#contents">Contents</a><a href="#start">Start here</a><a href="#resources">Official resources</a><a href="https://github.com/learninghub44/cloudflare-web-development-guide" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
   </nav>
 </header>
 <main id="main">
@@ -28,6 +28,42 @@
     <div class="hero-stats"><div><strong>01</strong><span>Understand the options</span></div><div><strong>02</strong><span>Deploy step by step</span></div><div><strong>03</strong><span>Secure the result</span></div></div>
   </section>
 
+  <section class="contents-intro" id="contents" aria-labelledby="contents-title">
+    <div class="contents-heading">
+      <div><p class="eyebrow">Your learning roadmap</p><h2 id="contents-title">Table of contents</h2><p>Follow the chapters in order, or jump straight to the Cloudflare service you need. Each chapter is written as a practical guide, with explanations, steps, examples and official documentation.</p></div>
+      <div class="contents-meta"><span class="contents-meta-number">13</span><span>chapters<br>from first deploy to production</span></div>
+    </div>
+    <a class="contents-start" href="#start"><span class="contents-start-icon">01</span><span><strong>Start with the basics</strong><small>Choose the right Cloudflare service before you build.</small></span><span class="contents-arrow">→</span></a>
+  </section>
+
+  <div class="docs-layout">
+    <aside class="toc-sidebar" aria-label="Guide table of contents">
+      <div class="toc-sidebar-top"><span class="toc-label">IN THIS GUIDE</span><span class="toc-progress-label" id="toc-progress-label">0% read</span></div>
+      <div class="toc-progress-track" aria-hidden="true"><span id="toc-progress"></span></div>
+      <label class="toc-search-label" for="toc-search">Find a chapter</label>
+      <input id="toc-search" class="toc-search" type="search" placeholder="Search the guide…" autocomplete="off">
+      <nav class="toc-nav" id="toc-nav" aria-label="Chapter navigation">
+        <p class="toc-group-label">FOUNDATIONS</p>
+        <a href="#start" data-toc-link><span>01</span> What are you building?</a>
+        <a href="#choose" data-toc-link><span>02</span> Pages or Workers?</a>
+        <a href="#pages" data-toc-link><span>03</span> Publish a static site</a>
+        <a href="#workers" data-toc-link><span>04</span> Workers and APIs</a>
+        <a href="#frameworks" data-toc-link><span>05</span> Frameworks</a>
+        <p class="toc-group-label">SERVICES & DATA</p>
+        <a href="#storage" data-toc-link><span>06</span> R2 object storage</a>
+        <a href="#data" data-toc-link><span>07</span> D1, KV and Queues</a>
+        <a href="#ai" data-toc-link><span>08</span> AI Gateway and AI tools</a>
+        <a href="#edge-tools" data-toc-link><span>09</span> Other Cloudflare services</a>
+        <a href="#email" data-toc-link><span>10</span> Email and DNS records</a>
+        <p class="toc-group-label">LAUNCH & MAINTAIN</p>
+        <a href="#production" data-toc-link><span>11</span> Domains and go live</a>
+        <a href="#operations" data-toc-link><span>12</span> SEO and operations</a>
+        <a href="#resources" data-toc-link><span>13</span> Official resources</a>
+        <a class="toc-support" href="https://paystack.shop/pay/christech" target="_blank" rel="noopener noreferrer">Support this guide ↗</a>
+      </nav>
+      <p class="toc-sidebar-note">Made for learners and builders by <strong>Chris Odhiambo · Chris Tech</strong>.</p>
+    </aside>
+    <div class="docs-content">
   <section class="section" id="start">
     <div class="section-heading"><p class="eyebrow">01 / Before you begin</p><h2>What are you building?</h2><p>Do not add complicated tools just because they are popular. First decide what the website needs to do.</p></div>
     <div class="cards">
@@ -377,6 +413,8 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
  <a href="https://developers.cloudflare.com/pages/how-to/web-analytics/">Cloudflare Web Analytics <span>↗</span></a>
     </div>
   </section>
+    </div>
+  </div>
   <section class="closing"><p class="eyebrow">Keep learning</p><h2>You do not need to know everything before you publish.</h2><p>Start small, deploy a working version, test it with real devices and add complexity only when the project needs it.</p><div class="hero-actions"><a class="button light" href="https://github.com/learninghub44/cloudflare-web-development-guide">View and contribute on GitHub</a><a class="button light" href="https://paystack.shop/pay/christech" target="_blank" rel="noopener noreferrer">Buy me a coffee</a></div><p class="support-note">Found this guide useful? You can support more practical learning resources through Chris Tech.</p></section>
 </main>
 <footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-mark">CT</span><span>Chris Tech</span></a><p>Written for learners and builders by <strong>Chris Odhiambo — Chris Tech</strong>.</p><p>Last updated: 18 October 2026 · <a href="https://github.com/learninghub44/cloudflare-web-development-guide">GitHub repository</a></p><p><a href="https://paystack.shop/pay/christech" target="_blank" rel="noopener noreferrer">Buy me a coffee / support this guide</a></p></footer>
