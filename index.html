@@ -3,37 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A practical, detailed guide to building and deploying HTML, CSS, JavaScript websites, frameworks, Cloudflare Pages and Workers. By Chris Odhiambo, Chris Tech.">
-  <meta name="theme-color" content="#176b3a">
-  <title>Cloudflare Web Development Guide — Chris Tech</title>
+  <meta name="description" content="Code Family helps people connect, grow and innovate through technology. Practical Cloudflare tutorials, web development and website building by Chris Odhiambo.">
+  <meta name="theme-color" content="#123e67">
+  <title>Code Family | Cloudflare and Web Development Guide</title>
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header" id="top">
-  <a class="brand" href="#top"><span class="brand-mark">CT</span><span>Chris Tech<small>Cloudflare Web Guide</small></span></a>
+  <a class="brand" href="#top"><img class="brand-logo" src="assets/code-family-logo.svg" alt=""><span>Code Family<small>Connect. Grow. Innovate.</small></span></a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
   <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-    <a href="#contents">Contents</a><a href="#start">Start here</a><a href="#resources">Official resources</a><a href="https://github.com/learninghub44/cloudflare-web-development-guide" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    <a href="#contents">Contents</a><a href="#start">Start here</a><a href="#web-services">Website services</a><a href="#resources">Resources</a><a href="https://github.com/learninghub44/cloudflare-web-development-guide" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
   </nav>
 </header>
 <main id="main">
   <section class="hero">
-    <p class="eyebrow">The practical handbook · 18 October 2026</p>
-    <h1>Build it. Deploy it. <span>Understand it.</span></h1>
-    <p class="hero-copy">A human-friendly, step-by-step guide to taking a website from your computer to the internet with Cloudflare. Learn the requirements, choose the right platform, deploy plain HTML/CSS/JavaScript or a framework, and prepare your project for real users.</p>
-    <div class="hero-actions"><a class="button primary" href="#start">Start with the basics</a><a class="button secondary" href="https://github.com/learninghub44/cloudflare-web-development-guide">Browse source on GitHub</a></div>
-    <p class="byline">Written by <strong>Chris Odhiambo — Chris Tech</strong></p>
-    <div class="hero-stats"><div><strong>01</strong><span>Understand the options</span></div><div><strong>02</strong><span>Deploy step by step</span></div><div><strong>03</strong><span>Secure the result</span></div></div>
+    <div class="hero-grid">
+      <div class="hero-copy-column">
+        <p class="eyebrow">A practical handbook for builders</p>
+        <h1>Learn to build. <span>Build for people.</span></h1>
+        <p class="hero-copy">A clear, step by step guide to building and publishing websites with HTML, CSS, JavaScript and Cloudflare. Learn the tools, understand the steps and turn your ideas into useful digital experiences.</p>
+        <div class="hero-actions"><a class="button primary" href="#contents">Explore the guide</a><a class="button secondary" href="#web-services">We build websites</a></div>
+        <p class="byline">Created by <strong>Chris Odhiambo</strong> | Code Family</p>
+        <blockquote class="hero-quote">“Keep learning. Keep building. Make technology useful to people.”</blockquote>
+      </div>
+      <div class="hero-profile"><img src="assets/chris-odhiambo.jpg" alt="Chris Odhiambo, creator of Code Family"><div class="profile-caption"><strong>Chris Odhiambo</strong><span>Developer | Community builder</span></div></div>
+    </div>
+    <div class="hero-stats"><div><strong>Learn</strong><span>Step by step guides</span></div><div><strong>Create</strong><span>Real projects and websites</span></div><div><strong>Grow</strong><span>Build your skills</span></div></div>
   </section>
 
   <section class="contents-intro" id="contents" aria-labelledby="contents-title">
     <div class="contents-heading">
-      <div><p class="eyebrow">Your learning roadmap</p><h2 id="contents-title">Table of contents</h2><p>Follow the chapters in order, or jump straight to the Cloudflare service you need. Each chapter is written as a practical guide, with explanations, steps, examples and official documentation.</p></div>
-      <div class="contents-meta"><span class="contents-meta-number">13</span><span>chapters<br>from first deploy to production</span></div>
+      <div><p class="eyebrow">Your roadmap</p><h2 id="contents-title">Choose your next step</h2><p>Browse the guide by topic. Start at the beginning if you are new, or open a chapter when you need a specific answer.</p></div>
+      <div class="contents-meta"><span class="contents-meta-number">13</span><span>chapters<br>organized into 3 learning paths</span></div>
     </div>
-    <a class="contents-start" href="#start"><span class="contents-start-icon">01</span><span><strong>Start with the basics</strong><small>Choose the right Cloudflare service before you build.</small></span><span class="contents-arrow">→</span></a>
+    <div class="contents-feature-grid">
+      <a class="contents-feature" href="#start"><span class="contents-feature-number">01</span><span><strong>Start here</strong><small>Understand the basics and choose your setup.</small></span><span class="contents-arrow">↗</span></a>
+      <a class="contents-feature" href="#production"><span class="contents-feature-number">02</span><span><strong>Launch a website</strong><small>Domains, email, SEO and production readiness.</small></span><span class="contents-arrow">↗</span></a>
+      <a class="contents-feature" href="#storage"><span class="contents-feature-number">03</span><span><strong>Explore Cloudflare tools</strong><small>R2, D1, AI Gateway and more services.</small></span><span class="contents-arrow">↗</span></a>
+    </div>
   </section>
 
   <div class="docs-layout">
@@ -59,17 +69,17 @@
         <a href="#ai" data-toc-link><span>11</span> AI Gateway and AI tools</a>
         <a href="#edge-tools" data-toc-link><span>12</span> Other Cloudflare services</a>
         <a href="#resources" data-toc-link><span>13</span> Official resources</a>
-        <a class="toc-support" href="https://paystack.shop/pay/christech" target="_blank" rel="noopener noreferrer">Support this guide ↗</a>
+        <a class="toc-support" href="#web-services">Need a website? Contact us</a>
       </nav>
-      <p class="toc-sidebar-note">Made for learners and builders by <strong>Chris Odhiambo · Chris Tech</strong>.</p>
+      <p class="toc-sidebar-note">Made for learners and builders by <strong>Chris Odhiambo | Code Family</strong>.</p>
     </aside>
     <div class="docs-content">
   <section class="section" id="start">
     <div class="section-heading"><p class="eyebrow">01 / Before you begin</p><h2>What are you building?</h2><p>Do not add complicated tools just because they are popular. First decide what the website needs to do.</p></div>
     <div class="cards">
-      <article class="guide-card"><span class="card-number">A · STATIC</span><h3>Plain HTML, CSS and JavaScript</h3><p>A portfolio, landing page, business website, documentation site or browser-only tool. These files can be published directly; no React, Node server or build step is required.</p><a href="#pages">Learn the static deployment path ↓</a></article>
-      <article class="guide-card"><span class="card-number">B · FRAMEWORK</span><h3>Vite or another framework</h3><p>React, Vue, Svelte, Angular, Astro and similar tools often compile source code into a folder of static files. The build command and output folder must match the project.</p><a href="#frameworks">Learn framework settings ↓</a></article>
-      <article class="guide-card"><span class="card-number">C · FULL STACK</span><h3>Website plus backend</h3><p>Login, protected APIs, webhooks, database access, scheduled tasks and server-rendered routes need server-side logic. Cloudflare Workers can run that logic.</p><a href="#workers">Learn Workers ↓</a></article>
+      <article class="guide-card"><span class="card-number">A | STATIC</span><h3>Plain HTML, CSS and JavaScript</h3><p>A portfolio, landing page, business website, documentation site or browser-only tool. These files can be published directly; no React, Node server or build step is required.</p><a href="#pages">Learn the static deployment path ↓</a></article>
+      <article class="guide-card"><span class="card-number">B | FRAMEWORK</span><h3>Vite or another framework</h3><p>React, Vue, Svelte, Angular, Astro and similar tools often compile source code into a folder of static files. The build command and output folder must match the project.</p><a href="#frameworks">Learn framework settings ↓</a></article>
+      <article class="guide-card"><span class="card-number">C | FULL STACK</span><h3>Website plus backend</h3><p>Login, protected APIs, webhooks, database access, scheduled tasks and server-rendered routes need server-side logic. Cloudflare Workers can run that logic.</p><a href="#workers">Learn Workers ↓</a></article>
     </div>
     <div class="callout"><strong>What you need at minimum:</strong> a Cloudflare account, website files, and a browser. GitHub is recommended for version control and automatic deployments. A custom domain is optional for the first deploy. You do not need to rent a traditional server to publish a static site.</div>
   </section>
@@ -138,7 +148,7 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
     <h3 class="subheading">Storage and data options</h3>
     <ul class="plain-list"><li><strong>D1:</strong> managed SQL database.</li><li><strong>KV:</strong> key-value storage for suitable lookup patterns.</li><li><strong>R2:</strong> object/file storage.</li><li><strong>Queues:</strong> asynchronous work processing.</li><li><strong>Durable Objects:</strong> stateful coordination and suitable real-time workloads.</li><li><strong>External database:</strong> an option when the provider and connection model suit the app.</li></ul>
     <p>These resources are not automatically created just because you deploy a Worker. Create the resource, configure its binding securely, and design access permissions and data handling.</p>
-    <p class="source-note">Official references: <a href="https://developers.cloudflare.com/workers/static-assets/">Workers Static Assets ↗</a> · <a href="https://developers.cloudflare.com/workers/configuration/secrets/">Workers secrets ↗</a> · <a href="https://developers.cloudflare.com/pages/functions/">Pages Functions ↗</a></p>
+    <p class="source-note">Official references: <a href="https://developers.cloudflare.com/workers/static-assets/">Workers Static Assets ↗</a> | <a href="https://developers.cloudflare.com/workers/configuration/secrets/">Workers secrets ↗</a> | <a href="https://developers.cloudflare.com/pages/functions/">Pages Functions ↗</a></p>
   </section>
 
   <section class="section" id="frameworks">
@@ -154,7 +164,7 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
     <div class="callout"><strong>Next.js note:</strong> a static export is not the same as a full server-rendered Next.js app. Cloudflare has distinct guidance for static Pages exports and Next.js on Workers. Read the guide for the framework's version and features instead of copying settings from a different tutorial.</div>
     <h3 class="subheading">Framework deployment checklist</h3>
     <ol><li>Read the official guide for the framework and version.</li><li>Decide if the app is static or server-rendered.</li><li>Check <code>package.json</code> scripts and the lockfile.</li><li>Run a clean install and build locally.</li><li>Confirm the output folder exists and contains the expected files.</li><li>Configure the matching preset, root, command and output folder.</li><li>Configure server-side bindings and secrets only when needed.</li><li>Test routes, API calls, redirects and error states on the preview.</li></ol>
-    <p class="source-note">Official references: <a href="https://developers.cloudflare.com/pages/framework-guides/">Cloudflare framework guides ↗</a> · <a href="https://developers.cloudflare.com/pages/framework-guides/nextjs/deploy-a-static-nextjs-site/">Next.js static deployment ↗</a></p>
+    <p class="source-note">Official references: <a href="https://developers.cloudflare.com/pages/framework-guides/">Cloudflare framework guides ↗</a> | <a href="https://developers.cloudflare.com/pages/framework-guides/nextjs/deploy-a-static-nextjs-site/">Next.js static deployment ↗</a></p>
   </section>
 
   <section class="section tinted" id="production">
@@ -196,7 +206,7 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
   <li>Send a test message from an unrelated email account. Confirm delivery to the destination inbox and check spam/junk if it does not arrive.</li>
   <li>Review routing analytics and troubleshoot DNS or verification warnings shown by Cloudflare.</li>
  </ol>
- <p class="source-note">Official setup: <a href="https://developers.cloudflare.com/email-service/get-started/route-emails/">Route emails with Cloudflare Email Service ↗</a> · <a href="https://developers.cloudflare.com/email-service/">Email Service documentation ↗</a></p>
+ <p class="source-note">Official setup: <a href="https://developers.cloudflare.com/email-service/get-started/route-emails/">Route emails with Cloudflare Email Service ↗</a> | <a href="https://developers.cloudflare.com/email-service/">Email Service documentation ↗</a></p>
  <h3 class="subheading">C. DNS records in simple terms</h3>
  <div class="comparison">
   <div><h3>MX</h3><p>Tells other mail systems where incoming mail for your domain should be delivered. Incorrect MX records can stop mail from reaching your current provider.</p></div>
@@ -214,7 +224,7 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
   <li>Test delivery to multiple providers and check spam placement, not just the success response from an API.</li>
  </ul>
  <div class="callout"><strong>Important:</strong> Email routing is not an email marketing list, a mailbox, or a guarantee that outbound messages will be accepted. Before changing MX records on a domain that already receives mail, document the existing configuration and plan the migration.</div>
- <p class="source-note">Useful references: <a href="https://developers.cloudflare.com/email-service/">Cloudflare Email Service ↗</a> · <a href="https://developers.cloudflare.com/dns/">Cloudflare DNS ↗</a></p>
+ <p class="source-note">Useful references: <a href="https://developers.cloudflare.com/email-service/">Cloudflare Email Service ↗</a> | <a href="https://developers.cloudflare.com/dns/">Cloudflare DNS ↗</a></p>
 </section>
 <section class="section" id="operations">
  <div class="section-heading"><p class="eyebrow">08 / Operating the site</p><h2>SEO, analytics, forms, performance and maintenance</h2><p>A professional website needs more than a successful deploy. Make it discoverable, measurable, accessible and maintainable.</p></div>
@@ -252,7 +262,7 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
   <li>For uploads, enforce file-size limits, permitted content types, safe filenames/object keys and authorization. Do not trust a filename or MIME type supplied by the browser.</li>
   <li>Test with a small file locally, deploy to a development environment, then test upload, download, overwrite and unauthorized access before production.</li>
  </ol>
- <pre><code>// Illustrative Worker pattern — add the matching R2 binding first.
+ <pre><code>// Illustrative Worker pattern add the matching R2 binding first.
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -276,7 +286,7 @@ export default {
  <ol><li>Only use public access for content that is genuinely intended for everyone, such as public product images or static downloads.</li><li>For testing, Cloudflare provides an <code>r2.dev</code> development URL, but it is rate-limited and intended for non-production use.</li><li>For production, connect a domain you control using the R2 custom-domain workflow, then test HTTPS, cache behavior and object paths.</li><li>Do not assume enabling a public bucket creates a browsable file listing at the root. Link to exact object paths.</li></ol>
  <h3 class="subheading">R2 CORS, uploads and safety</h3>
  <ul class="plain-list"><li><strong>CORS:</strong> configure allowed origins, methods and headers only when a browser needs cross-origin access. CORS is not authentication.</li><li><strong>Large uploads:</strong> consider direct-to-R2 uploads using short-lived presigned URLs rather than proxying every large file through a Worker.</li><li><strong>Private documents:</strong> keep the bucket private and check authorization before issuing a download URL.</li><li><strong>Lifecycle and cleanup:</strong> define a retention policy for temporary uploads and abandoned files.</li><li><strong>Backups:</strong> test restoration. A copy in the same account may not protect against every deletion or account-level incident.</li><li><strong>Costs:</strong> review storage, operations, egress and applicable plan limits in the current pricing page.</li></ul>
- <p class="source-note">Official guides: <a href="https://developers.cloudflare.com/r2/get-started/">R2 quick start ↗</a> · <a href="https://developers.cloudflare.com/r2/buckets/public-buckets/">Public buckets ↗</a> · <a href="https://developers.cloudflare.com/r2/api/s3/presigned-urls/">Presigned URLs ↗</a> · <a href="https://developers.cloudflare.com/r2/buckets/cors/">R2 CORS ↗</a></p>
+ <p class="source-note">Official guides: <a href="https://developers.cloudflare.com/r2/get-started/">R2 quick start ↗</a> | <a href="https://developers.cloudflare.com/r2/buckets/public-buckets/">Public buckets ↗</a> | <a href="https://developers.cloudflare.com/r2/api/s3/presigned-urls/">Presigned URLs ↗</a> | <a href="https://developers.cloudflare.com/r2/buckets/cors/">R2 CORS ↗</a></p>
 </section>
 <section class="section" id="data">
  <div class="section-heading"><p class="eyebrow">10 / Databases and state</p><h2>D1, KV, Durable Objects and Queues</h2><p>These tools solve different problems. Choose based on the data shape and consistency you need, not because every Cloudflare project must use every service.</p></div>
@@ -311,7 +321,7 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
  <p>Queues let a producer send a message for later processing by a consumer. Use them for tasks that should not hold up the original web request, such as email jobs, image processing, webhook follow-up work or batch tasks.</p>
  <ol><li>Create a queue and configure producer/consumer bindings.</li><li>Define a small, versioned message schema. Do not place unnecessary sensitive information in messages.</li><li>Send the message after validating the original request.</li><li>Make the consumer idempotent because retries can cause a message to be processed more than once.</li><li>Set retry and dead-letter behavior, observe failures and provide a safe way to replay messages.</li></ol>
  <div class="callout"><strong>Choosing quickly:</strong> D1 = relational SQL records; KV = distributed key/value lookup; Durable Objects = coordinated state; Queues = background work. They can work together, but each has its own limits, pricing and consistency model.</div>
- <p class="source-note">Official guides: <a href="https://developers.cloudflare.com/d1/get-started/">D1 getting started ↗</a> · <a href="https://developers.cloudflare.com/d1/reference/migrations/">D1 migrations ↗</a> · <a href="https://developers.cloudflare.com/kv/">Workers KV ↗</a> · <a href="https://developers.cloudflare.com/durable-objects/">Durable Objects ↗</a> · <a href="https://developers.cloudflare.com/queues/">Queues ↗</a></p>
+ <p class="source-note">Official guides: <a href="https://developers.cloudflare.com/d1/get-started/">D1 getting started ↗</a> | <a href="https://developers.cloudflare.com/d1/reference/migrations/">D1 migrations ↗</a> | <a href="https://developers.cloudflare.com/kv/">Workers KV ↗</a> | <a href="https://developers.cloudflare.com/durable-objects/">Durable Objects ↗</a> | <a href="https://developers.cloudflare.com/queues/">Queues ↗</a></p>
 </section>
 <section class="section tinted" id="ai">
  <div class="section-heading"><p class="eyebrow">11 / AI on Cloudflare</p><h2>AI Gateway, Workers AI and Vectorize</h2><p>AI Gateway helps you observe and control model traffic. Workers AI runs supported models. Vectorize stores embeddings for semantic search. They are related, but they are not the same service.</p></div>
@@ -326,7 +336,7 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
   <li>Set appropriate rate limits and retry behavior. Avoid retry storms, duplicated billable requests and overly generous limits for anonymous users.</li>
   <li>Monitor request volume, tokens, errors and costs. Check log retention and privacy settings before sending personal or confidential data.</li>
  </ol>
- <p class="source-note">Official guide: <a href="https://developers.cloudflare.com/ai-gateway/">AI Gateway overview ↗</a> · <a href="https://developers.cloudflare.com/ai-gateway/reference/pricing/">AI Gateway pricing and logging ↗</a></p>
+ <p class="source-note">Official guide: <a href="https://developers.cloudflare.com/ai-gateway/">AI Gateway overview ↗</a> | <a href="https://developers.cloudflare.com/ai-gateway/reference/pricing/">AI Gateway pricing and logging ↗</a></p>
  <h3 class="subheading">Workers AI: run supported AI models</h3>
  <p>Workers AI lets your Worker call models available in Cloudflare's model catalog without you managing a GPU server. Model availability, context sizes, features, quotas and pricing can change, so check the current catalog before choosing a model.</p>
  <ol>
@@ -338,7 +348,7 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
   <li>Evaluate model quality for your actual task and language. Do not assume an AI answer is factually correct; validate important outputs and disclose limitations to users.</li>
   <li>Deploy, test under expected traffic and monitor usage and costs.</li>
  </ol>
- <p class="source-note">Official guide: <a href="https://developers.cloudflare.com/workers-ai/get-started/">Workers AI getting started ↗</a> · <a href="https://developers.cloudflare.com/workers-ai/get-started/workers-wrangler/">Workers AI with Wrangler ↗</a></p>
+ <p class="source-note">Official guide: <a href="https://developers.cloudflare.com/workers-ai/get-started/">Workers AI getting started ↗</a> | <a href="https://developers.cloudflare.com/workers-ai/get-started/workers-wrangler/">Workers AI with Wrangler ↗</a></p>
  <h3 class="subheading">Vectorize: semantic search and retrieval</h3>
  <p>Vectorize is a vector database. An embedding model turns text or other supported inputs into arrays of numbers that represent semantic features. Vectorize stores and searches those vectors; it does not automatically store or secure all of the original documents for you.</p>
  <ol>
@@ -351,7 +361,7 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
   <li>Evaluate relevance, stale-content removal, duplicate documents, metadata filters and access-control boundaries. Never let a vector match bypass document permissions.</li>
  </ol>
  <p>For retrieval-augmented generation (RAG), the common flow is: user question → query embedding → vector search → permission-filtered source passages → model prompt → answer with source references. Keep the original sources so the answer can be checked.</p>
- <p class="source-note">Official guide: <a href="https://developers.cloudflare.com/vectorize/get-started/">Vectorize getting started ↗</a> · <a href="https://developers.cloudflare.com/vectorize/get-started/embeddings/">Vectorize with Workers AI embeddings ↗</a></p>
+ <p class="source-note">Official guide: <a href="https://developers.cloudflare.com/vectorize/get-started/">Vectorize getting started ↗</a> | <a href="https://developers.cloudflare.com/vectorize/get-started/embeddings/">Vectorize with Workers AI embeddings ↗</a></p>
  <h3 class="subheading">A sensible AI application architecture</h3>
  <ol><li>The browser calls your authenticated Worker endpoint.</li><li>The Worker validates the user, request size, permissions and rate limits.</li><li>AI Gateway routes supported provider traffic and provides monitoring controls; Workers AI can run supported Cloudflare-hosted models.</li><li>Vectorize can retrieve relevant passages if your app needs semantic search.</li><li>D1 or R2 can store application records and original documents according to their access requirements.</li><li>The Worker returns a safe response and logs only what is necessary.</li></ol>
  <div class="callout"><strong>AI safety:</strong> treat model output and retrieved documents as untrusted input. Protect against prompt injection, data leakage, excessive tool permissions, high-cost loops and requests that attempt to expose secrets. Require human review for consequential decisions.</div>
@@ -380,7 +390,7 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
  <p class="source-note"><a href="https://developers.cloudflare.com/workers/configuration/cron-triggers/">Cron Triggers documentation ↗</a></p>
  <h3 class="subheading">WAF, rate limiting and caching</h3>
  <p>Cloudflare's network features can help protect and accelerate websites. Begin by understanding which DNS records are proxied, then review security events and caching behavior. Add WAF/custom rules and rate limits carefully; a broad rule can block legitimate users or APIs. Do not cache private account pages or personalized API responses as public content.</p>
- <p class="source-note"><a href="https://developers.cloudflare.com/waf/">WAF documentation ↗</a> · <a href="https://developers.cloudflare.com/cache/">Cache documentation ↗</a> · <a href="https://developers.cloudflare.com/waiting-room/">Waiting Room documentation ↗</a></p>
+ <p class="source-note"><a href="https://developers.cloudflare.com/waf/">WAF documentation ↗</a> | <a href="https://developers.cloudflare.com/cache/">Cache documentation ↗</a> | <a href="https://developers.cloudflare.com/waiting-room/">Waiting Room documentation ↗</a></p>
 </section>
 
 <section class="section tinted" id="resources">
@@ -415,8 +425,19 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
   </section>
     </div>
   </div>
-  <section class="closing"><p class="eyebrow">Keep learning</p><h2>You do not need to know everything before you publish.</h2><p>Start small, deploy a working version, test it with real devices and add complexity only when the project needs it.</p><div class="hero-actions"><a class="button light" href="https://github.com/learninghub44/cloudflare-web-development-guide">View and contribute on GitHub</a><a class="button light" href="https://paystack.shop/pay/christech" target="_blank" rel="noopener noreferrer">Buy me a coffee</a></div><p class="support-note">Found this guide useful? You can support more practical learning resources through Chris Tech.</p></section>
+  <section class="section web-services" id="web-services">
+    <div class="section-heading"><p class="eyebrow">Code Family services</p><h2>Have an idea? Let's build your website.</h2><p>We also build clean, responsive websites for businesses, creators, communities and personal brands.</p></div>
+    <div class="service-grid">
+      <article class="service-card"><span class="service-index">01</span><h3>Business websites</h3><p>Present your services clearly and help customers find and contact you.</p></article>
+      <article class="service-card"><span class="service-index">02</span><h3>Landing pages</h3><p>Focused pages for a product, campaign, event or new business idea.</p></article>
+      <article class="service-card"><span class="service-index">03</span><h3>Web apps and portals</h3><p>Useful online tools and custom digital experiences for your workflow.</p></article>
+    </div>
+    <div class="contact-strip"><div><p class="eyebrow">Let's talk about your project</p><h3>Have a website idea?</h3><p>Call or WhatsApp us to discuss what you need.</p></div><a class="button primary" href="https://wa.me/254701059192" target="_blank" rel="noopener noreferrer">WhatsApp +254 701 059 192</a></div>
+    <blockquote class="closing-quote">“Great technology is not just about what you can build. It is about the people you help with it.”<cite>Code Family</cite></blockquote>
+  </section>
+
+  <section class="closing"><p class="eyebrow">Connect. Grow. Innovate.</p><h2>Keep learning. Keep creating.</h2><p>You do not need to know everything before you begin. Start small, build consistently and use what you learn to create something valuable.</p><div class="hero-actions"><a class="button light" href="https://github.com/learninghub44/cloudflare-web-development-guide">View and contribute on GitHub</a><a class="button light" href="https://wa.me/254701059192" target="_blank" rel="noopener noreferrer">Build a website with us</a></div><p class="support-note">Code Family is a place to connect, grow and innovate through technology.</p></section>
 </main>
-<footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-mark">CT</span><span>Chris Tech</span></a><p>Written for learners and builders by <strong>Chris Odhiambo — Chris Tech</strong>.</p><p>Last updated: 18 October 2026 · <a href="https://github.com/learninghub44/cloudflare-web-development-guide">GitHub repository</a></p><p><a href="https://paystack.shop/pay/christech" target="_blank" rel="noopener noreferrer">Buy me a coffee / support this guide</a></p></footer>
+<footer class="site-footer"><a class="brand footer-brand" href="#top"><img class="brand-logo" src="assets/code-family-logo.svg" alt=""><span>Code Family</span></a><p>Learn, create and grow with <strong>Chris Odhiambo</strong>.</p><p>Last updated: 18 October 2026 | <a href="https://github.com/learninghub44/cloudflare-web-development-guide">GitHub repository</a></p><p><a href="https://paystack.shop/pay/christech" target="_blank" rel="noopener noreferrer">Buy me a coffee / support this guide</a></p></footer>
 </body>
 </html>
