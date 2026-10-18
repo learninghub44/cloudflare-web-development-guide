@@ -70,3 +70,69 @@ if ("IntersectionObserver" in window && guideSections.length) {
 window.addEventListener("scroll", updateGuideProgress, { passive: true });
 window.addEventListener("resize", updateGuideProgress);
 updateGuideProgress();
+
+
+// Context-aware, one-time support prompt. It appears only after meaningful
+// reading activity, never immediately on page load, and can be dismissed.
+(() => {
+  const prompt = document.querySelector("#support-popover");
+  const close = document.querySelector("#support-popover-close");
+  const later = document.querySelector("#support-later");
+  const coffeeLink = document.querySelector("#support-coffee-link");
+  if (!prompt || !close || !later || !coffeeLink) return;
+
+  let shown = false;
+  let dismissed = false;
+  let dwellTimer = 0;
+  let activeSeconds = 0;
+  let lastTick = Date.now();
+  const minReadSeconds = 35;
+  const minScrollDepth = 0.28;
+  const storageKey = "code-family-support-prompt-v1";
+
+  try {
+    dismissed = sessionStorage.getItem(storageKey) === "dismissed" ||
+      sessionStorage.getItem(storageKey) === "clicked";
+  } catch (_) {}
+
+  function scrollDepth() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    return max > 0 ? window.scrollY / max : 0;
+  }
+
+  function maybeShow() {
+    if (shown || dismissed || document.hidden) return;
+    if (activeSeconds < minReadSeconds || scrollDepth() < minScrollDepth) return;
+    shown = true;
+    prompt.hidden = false;
+    prompt.classList.add("is-visible");
+    prompt.setAttribute("aria-live", "polite");
+  }
+
+  function tickReadingTime() {
+    const now = Date.now();
+    if (!document.hidden && now - lastTick < 5000) activeSeconds += (now - lastTick) / 1000;
+    lastTick = now;
+    maybeShow();
+  }
+
+  function dismiss(reason = "dismissed") {
+    dismissed = true;
+    prompt.classList.remove("is-visible");
+    prompt.hidden = true;
+    try { sessionStorage.setItem(storageKey, reason); } catch (_) {}
+  }
+
+  close.addEventListener("click", () => dismiss());
+  later.addEventListener("click", () => dismiss());
+  coffeeLink.addEventListener("click", () => {
+    try { sessionStorage.setItem(storageKey, "clicked"); } catch (_) {}
+    prompt.classList.remove("is-visible");
+    prompt.hidden = true;
+  });
+
+  window.addEventListener("scroll", maybeShow, { passive: true });
+  document.addEventListener("visibilitychange", () => { lastTick = Date.now(); maybeShow(); });
+  dwellTimer = window.setInterval(tickReadingTime, 5000);
+  window.addEventListener("pagehide", () => window.clearInterval(dwellTimer), { once: true });
+})();
