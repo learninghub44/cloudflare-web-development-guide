@@ -15,7 +15,7 @@
   <a class="brand" href="#top"><span class="brand-mark">CT</span><span>Chris Tech<small>Cloudflare Web Guide</small></span></a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
   <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-    <a href="#start">Start</a><a href="#pages">Pages</a><a href="#workers">Workers</a><a href="#frameworks">Frameworks</a><a href="#production">Go live</a>
+    <a href="#start">Start</a><a href="#pages">Pages</a><a href="#workers">Workers</a><a href="#frameworks">Frameworks</a><a href="#email">Email routing</a><a href="#production">Go live</a>
   </nav>
 </header>
 <main id="main">
@@ -141,7 +141,62 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
     </div>
   </section>
 
-  <section class="section" id="resources">
+  <section class="section tinted" id="email">
+ <div class="section-heading"><p class="eyebrow">07 / Business email</p><h2>Email routing, domain records and sending mail</h2><p>Your website domain and your email service share DNS, but they are different services. Set up email deliberately so a website change does not break business email.</p></div>
+ <div class="callout"><strong>Understand the difference:</strong> Cloudflare Email Routing forwards incoming messages sent to custom addresses (for example, <code>hello@yourdomain.com</code>) to an existing inbox. It is not, by itself, a full mailbox hosting service with a separate inbox, folders, IMAP/POP access, or a complete outbound email system.</div>
+ <h3 class="subheading">A. Before you configure routing</h3>
+ <ol>
+  <li>Add your domain to Cloudflare and use Cloudflare as its authoritative DNS provider. Email Service routing requires Cloudflare DNS.</li>
+  <li>Decide which addresses you need, such as <code>hello@yourdomain.com</code>, <code>support@yourdomain.com</code>, <code>sales@yourdomain.com</code> and <code>billing@yourdomain.com</code>.</li>
+  <li>Choose an existing mailbox that will receive forwarded messages, and make sure you can open and verify it.</li>
+  <li>Inspect existing DNS records first. If the domain already uses Google Workspace, Microsoft 365 or another email provider, do not replace its MX records blindly.</li>
+ </ol>
+ <h3 class="subheading">B. Configure Cloudflare Email Service / Email Routing</h3>
+ <ol>
+  <li>Open the Cloudflare dashboard and go to <strong>Compute → Email Service → Email Routing</strong> (the dashboard label may change).</li>
+  <li>Choose the domain and start onboarding. Review the DNS records Cloudflare proposes to add, including the MX and relevant authentication records.</li>
+  <li>Open <strong>Destination Addresses</strong>, add the inbox where you want to receive forwarded messages, and click the verification link sent to that mailbox.</li>
+  <li>Create a custom address and choose the verified destination. Repeat for other addresses if needed.</li>
+  <li>Send a test message from an unrelated email account. Confirm delivery to the destination inbox and check spam/junk if it does not arrive.</li>
+  <li>Review routing analytics and troubleshoot DNS or verification warnings shown by Cloudflare.</li>
+ </ol>
+ <p class="source-note">Official setup: <a href="https://developers.cloudflare.com/email-service/get-started/route-emails/">Route emails with Cloudflare Email Service ↗</a> · <a href="https://developers.cloudflare.com/email-service/">Email Service documentation ↗</a></p>
+ <h3 class="subheading">C. DNS records in simple terms</h3>
+ <div class="comparison">
+  <div><h3>MX</h3><p>Tells other mail systems where incoming mail for your domain should be delivered. Incorrect MX records can stop mail from reaching your current provider.</p></div>
+  <div><h3>SPF, DKIM and DMARC</h3><p>Help receiving mail systems evaluate whether messages are authorized and authenticated. Follow the exact records supplied by your email provider; do not copy records from a different domain.</p></div>
+  <div><h3>A and CNAME</h3><p>Typically connect a website hostname to a hosting destination. These records do not create an email inbox. Keep web and mail records distinct.</p></div>
+  <div><h3>DNS propagation</h3><p>Changes may take time to appear across the internet. Check the record values and status before making repeated edits.</p></div>
+ </div>
+ <h3 class="subheading">D. Can I send email from my website?</h3>
+ <p>Incoming forwarding and outbound email are separate. A contact form, password reset, receipt or booking confirmation needs a sending service or a supported email API. Cloudflare Email Service includes sending capabilities, but you must configure the domain and sending workflow according to its current documentation. A third-party provider is also an option.</p>
+ <ul class="plain-list">
+  <li>Keep API keys and provider credentials in Worker secrets or your backend's secret manager, never in browser JavaScript.</li>
+  <li>Validate form input on the server and add rate limiting, abuse protection and sensible message limits.</li>
+  <li>Use a verified sender domain and correctly configured SPF/DKIM/DMARC as instructed by the provider.</li>
+  <li>Handle delivery failures gracefully and avoid exposing whether a private account exists in password-reset flows.</li>
+  <li>Test delivery to multiple providers and check spam placement, not just the success response from an API.</li>
+ </ul>
+ <div class="callout"><strong>Important:</strong> Email routing is not an email marketing list, a mailbox, or a guarantee that outbound messages will be accepted. Before changing MX records on a domain that already receives mail, document the existing configuration and plan the migration.</div>
+ <p class="source-note">Useful references: <a href="https://developers.cloudflare.com/email-service/">Cloudflare Email Service ↗</a> · <a href="https://developers.cloudflare.com/dns/">Cloudflare DNS ↗</a></p>
+</section>
+<section class="section" id="operations">
+ <div class="section-heading"><p class="eyebrow">08 / Operating the site</p><h2>SEO, analytics, forms, performance and maintenance</h2><p>A professional website needs more than a successful deploy. Make it discoverable, measurable, accessible and maintainable.</p></div>
+ <h3 class="subheading">Search engine basics</h3>
+ <ul class="plain-list"><li>Give each page a useful, unique title and meta description.</li><li>Use semantic headings, descriptive link text, image alt text and readable page content.</li><li>Add a valid <code>robots.txt</code> and sitemap when appropriate; submit the sitemap to search tools you use.</li><li>Use one preferred canonical hostname and redirect alternate versions consistently.</li><li>Do not hide important content in images or rely only on client-side scripts for essential information.</li></ul>
+ <h3 class="subheading">Analytics and privacy</h3>
+ <p>Cloudflare Web Analytics can provide website traffic measurements. Enable it from the dashboard or follow the current setup guide, then check that the site is actually receiving data. Explain tracking honestly and follow privacy requirements applicable to your audience. Do not collect more personal information than you need.</p>
+ <p class="source-note"><a href="https://developers.cloudflare.com/pages/how-to/web-analytics/">Cloudflare Web Analytics guide ↗</a></p>
+ <h3 class="subheading">Forms and integrations</h3>
+ <p>HTML can display a contact form, but static hosting does not automatically store or deliver its submissions. Connect a secure Worker/Pages Function or a reputable form service. Validate fields on the server, protect against spam, show clear success and error states, and do not collect payment-card data yourself.</p>
+ <h3 class="subheading">Speed and accessibility</h3>
+ <ul class="plain-list"><li>Compress images and use suitable formats and dimensions.</li><li>Reduce unnecessary JavaScript and third-party scripts.</li><li>Check the page at narrow mobile widths, with keyboard navigation and zoom.</li><li>Maintain sufficient contrast, visible focus states, labels and meaningful alt text.</li><li>Use caching thoughtfully; do not aggressively cache private or personalized responses.</li></ul>
+ <h3 class="subheading">Backups, monitoring and rollbacks</h3>
+ <p>Keep the source in Git, document DNS and environment settings, and maintain a recovery path. Review deployment logs after changes, test critical journeys and keep secrets out of logs. Pages supports deployment history and rollbacks; use the dashboard to return to a known-good deployment when appropriate. A rollback does not automatically reverse database migrations or external side effects.</p>
+ <h3 class="subheading">Costs and usage</h3>
+ <p>Check current Cloudflare plan limits and the pricing of every connected service before launch. Domain registration, paid mailbox hosting, third-party APIs, databases and email sending may cost extra even if static hosting is inexpensive. Set usage alerts where available and avoid assuming every feature is unlimited or free.</p>
+</section>
+<section class="section tinted" id="resources">
     <div class="section-heading"><p class="eyebrow">07 / Official references</p><h2>Keep the documentation close</h2><p>Cloudflare updates its dashboard and supported framework workflows. Use official documentation to verify the exact steps for your project.</p></div>
     <div class="resource-list">
       <a href="https://developers.cloudflare.com/pages/">Cloudflare Pages overview <span>↗</span></a>
@@ -153,10 +208,12 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
       <a href="https://developers.cloudflare.com/workers/configuration/secrets/">Workers secrets <span>↗</span></a>
       <a href="https://developers.cloudflare.com/pages/configuration/custom-domains/">Pages custom domains <span>↗</span></a>
       <a href="https://developers.cloudflare.com/dns/">Cloudflare DNS documentation <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/email-service/">Cloudflare Email Service and routing <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/pages/how-to/web-analytics/">Cloudflare Web Analytics <span>↗</span></a>
     </div>
   </section>
-  <section class="closing"><p class="eyebrow">Keep learning</p><h2>You do not need to know everything before you publish.</h2><p>Start small, deploy a working version, test it with real devices and add complexity only when the project needs it.</p><a class="button light" href="https://github.com/learninghub44/cloudflare-web-development-guide">View and contribute on GitHub</a></section>
+  <section class="closing"><p class="eyebrow">Keep learning</p><h2>You do not need to know everything before you publish.</h2><p>Start small, deploy a working version, test it with real devices and add complexity only when the project needs it.</p><div class="hero-actions"><a class="button light" href="https://github.com/learninghub44/cloudflare-web-development-guide">View and contribute on GitHub</a><a class="button light" href="https://paystack.shop/pay/christech" target="_blank" rel="noopener noreferrer">Buy me a coffee</a></div><p class="support-note">Found this guide useful? You can support more practical learning resources through Chris Tech.</p></section>
 </main>
-<footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-mark">CT</span><span>Chris Tech</span></a><p>Written for learners and builders by <strong>Chris Odhiambo — Chris Tech</strong>.</p><p>Last updated: 18 October 2026 · <a href="https://github.com/learninghub44/cloudflare-web-development-guide">GitHub repository</a></p></footer>
+<footer class="site-footer"><a class="brand footer-brand" href="#top"><span class="brand-mark">CT</span><span>Chris Tech</span></a><p>Written for learners and builders by <strong>Chris Odhiambo — Chris Tech</strong>.</p><p>Last updated: 18 October 2026 · <a href="https://github.com/learninghub44/cloudflare-web-development-guide">GitHub repository</a></p><p><a href="https://paystack.shop/pay/christech" target="_blank" rel="noopener noreferrer">Buy me a coffee / support this guide</a></p></footer>
 </body>
 </html>
