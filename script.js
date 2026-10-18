@@ -86,8 +86,8 @@ updateGuideProgress();
   let dwellTimer = 0;
   let activeSeconds = 0;
   let lastTick = Date.now();
-  const minReadSeconds = 35;
-  const minScrollDepth = 0.28;
+  const minReadSeconds = 15;
+  const minScrollDepth = 0.12;
   const storageKey = "code-family-support-prompt-v1";
 
   try {
@@ -102,7 +102,7 @@ updateGuideProgress();
 
   function maybeShow() {
     if (shown || dismissed || document.hidden) return;
-    if (activeSeconds < minReadSeconds || scrollDepth() < minScrollDepth) return;
+    if (activeSeconds < minReadSeconds && scrollDepth() < minScrollDepth) return;
     shown = true;
     prompt.hidden = false;
     prompt.classList.add("is-visible");
