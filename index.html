@@ -15,7 +15,7 @@
   <a class="brand" href="#top"><span class="brand-mark">CT</span><span>Chris Tech<small>Cloudflare Web Guide</small></span></a>
   <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
   <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-    <a href="#start">Start</a><a href="#pages">Pages</a><a href="#workers">Workers</a><a href="#frameworks">Frameworks</a><a href="#email">Email routing</a><a href="#operations">Operations</a><a href="#production">Go live</a>
+    <a href="#start">Start</a><a href="#pages">Pages</a><a href="#workers">Workers</a><a href="#frameworks">Frameworks</a><a href="#email">Email</a><a href="#storage">R2 & storage</a><a href="#data">D1 & data</a><a href="#ai">AI tools</a><a href="#edge-tools">Other services</a><a href="#operations">Operations</a><a href="#production">Go live</a>
   </nav>
 </header>
 <main id="main">
@@ -196,6 +196,157 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
  <h3 class="subheading">Costs and usage</h3>
  <p>Check current Cloudflare plan limits and the pricing of every connected service before launch. Domain registration, paid mailbox hosting, third-party APIs, databases and email sending may cost extra even if static hosting is inexpensive. Set usage alerts where available and avoid assuming every feature is unlimited or free.</p>
 </section>
+
+<section class="section tinted" id="storage">
+ <div class="section-heading"><p class="eyebrow">09 / Files and object storage</p><h2>R2: store images, documents, videos and downloads</h2><p>R2 is object storage. Think of it as a place for files your application needs to save and retrieve, rather than a folder that automatically appears inside your website.</p></div>
+ <div class="callout"><strong>Use R2 for:</strong> user uploads, product photos, PDF documents, generated reports, backups and large files. Do not use it as a relational database, and do not make private files public just to make the URLs work.</div>
+ <h3 class="subheading">Create your first bucket</h3>
+ <ol>
+  <li>Open the Cloudflare dashboard and select <strong>R2 Object Storage</strong>. If asked, enable R2 for the account and review the current pricing and storage/operation allowances.</li>
+  <li>Select <strong>Create bucket</strong>. Choose a clear name such as <code>christech-public-assets-dev</code> for development. Use separate buckets or clearly separated policies for production and private uploads.</li>
+  <li>Choose the location options offered by the dashboard where applicable, and create the bucket.</li>
+  <li>Open the bucket and upload a harmless test image or text file. Check its object key and metadata. Object keys are paths/names inside the bucket; they are not necessarily ordinary folders.</li>
+  <li>Decide how your application will access objects: a Worker binding for server-side access, a presigned URL for temporary access, or a deliberately public custom domain for public assets.</li>
+ </ol>
+ <h3 class="subheading">Option A: use R2 from a Worker</h3>
+ <ol>
+  <li>Create or open your Worker project and install/configure Wrangler using the current Cloudflare instructions.</li>
+  <li>Add an R2 bucket binding in your Wrangler configuration. For example, the binding name might be <code>ASSETS</code>; your code then accesses <code>env.ASSETS</code>. Use the exact bucket name and configuration generated for your project.</li>
+  <li>In the Worker, use the binding to put, get, list or delete objects only after validating the request and checking the caller's permissions.</li>
+  <li>For uploads, enforce file-size limits, permitted content types, safe filenames/object keys and authorization. Do not trust a filename or MIME type supplied by the browser.</li>
+  <li>Test with a small file locally, deploy to a development environment, then test upload, download, overwrite and unauthorized access before production.</li>
+ </ol>
+ <pre><code>// Illustrative Worker pattern — add the matching R2 binding first.
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname === "/health") {
+      return Response.json({ ok: true });
+    }
+    if (url.pathname === "/example-file" && request.method === "GET") {
+      const object = await env.ASSETS.get("demo/hello.txt");
+      if (!object) return new Response("Not found", { status: 404 });
+      return new Response(object.body, {
+        headers: { "Content-Type": object.httpMetadata?.contentType || "text/plain" }
+      });
+    }
+    return new Response("Not found", { status: 404 });
+  }
+};</code></pre>
+ <p>This example assumes a binding called <code>ASSETS</code> exists and an object called <code>demo/hello.txt</code> has been uploaded. It is not a public upload endpoint and should not be mistaken for a complete file manager.</p>
+ <h3 class="subheading">Option B: share a file with a presigned URL</h3>
+ <ol><li>Keep the bucket private.</li><li>Use the supported S3-compatible API or SDK from trusted server-side code to create a time-limited presigned URL.</li><li>Give the URL only to the authorized person and keep its expiry short enough for the use case.</li><li>Remember that anyone who obtains the URL can generally use it until it expires. Do not log or publish sensitive presigned URLs.</li></ol>
+ <h3 class="subheading">Option C: serve public files</h3>
+ <ol><li>Only use public access for content that is genuinely intended for everyone, such as public product images or static downloads.</li><li>For testing, Cloudflare provides an <code>r2.dev</code> development URL, but it is rate-limited and intended for non-production use.</li><li>For production, connect a domain you control using the R2 custom-domain workflow, then test HTTPS, cache behavior and object paths.</li><li>Do not assume enabling a public bucket creates a browsable file listing at the root. Link to exact object paths.</li></ol>
+ <h3 class="subheading">R2 CORS, uploads and safety</h3>
+ <ul class="plain-list"><li><strong>CORS:</strong> configure allowed origins, methods and headers only when a browser needs cross-origin access. CORS is not authentication.</li><li><strong>Large uploads:</strong> consider direct-to-R2 uploads using short-lived presigned URLs rather than proxying every large file through a Worker.</li><li><strong>Private documents:</strong> keep the bucket private and check authorization before issuing a download URL.</li><li><strong>Lifecycle and cleanup:</strong> define a retention policy for temporary uploads and abandoned files.</li><li><strong>Backups:</strong> test restoration. A copy in the same account may not protect against every deletion or account-level incident.</li><li><strong>Costs:</strong> review storage, operations, egress and applicable plan limits in the current pricing page.</li></ul>
+ <p class="source-note">Official guides: <a href="https://developers.cloudflare.com/r2/get-started/">R2 quick start ↗</a> · <a href="https://developers.cloudflare.com/r2/buckets/public-buckets/">Public buckets ↗</a> · <a href="https://developers.cloudflare.com/r2/api/s3/presigned-urls/">Presigned URLs ↗</a> · <a href="https://developers.cloudflare.com/r2/buckets/cors/">R2 CORS ↗</a></p>
+</section>
+<section class="section" id="data">
+ <div class="section-heading"><p class="eyebrow">10 / Databases and state</p><h2>D1, KV, Durable Objects and Queues</h2><p>These tools solve different problems. Choose based on the data shape and consistency you need, not because every Cloudflare project must use every service.</p></div>
+ <h3 class="subheading">D1: a managed SQL database</h3>
+ <p>D1 is a serverless SQL database built on SQLite. It is suitable for many small and medium application data models, such as users, products, posts, bookings and settings, when used within its documented limits.</p>
+ <ol>
+  <li>Install a supported Node.js version and use the project's current Wrangler CLI.</li>
+  <li>From your Worker project directory, create a database with a command such as <code>npx wrangler d1 create my-app-db</code>. Follow the CLI output and official docs for the exact command and generated identifier.</li>
+  <li>Add the returned D1 database configuration to <code>wrangler.jsonc</code> (or let Wrangler update it). Choose a clear binding name such as <code>DB</code> and reference it as <code>env.DB</code> in the Worker.</li>
+  <li>Create a <code>migrations</code> folder and a numbered SQL migration file. Define tables, primary keys, constraints and indexes intentionally.</li>
+  <li>Apply migrations to the local development database first. Inspect the schema and test the app with non-production sample data.</li>
+  <li>Apply the migration to the remote database only after reviewing it. Keep schema changes in version control and use the documented remote migration command.</li>
+  <li>Implement prepared/bound SQL parameters, input validation, authorization, pagination and safe error handling. Never concatenate untrusted input into SQL.</li>
+  <li>Before production, review backups, restore procedures, database limits, indexes, query performance and data retention requirements.</li>
+ </ol>
+ <pre><code>-- Example migration: migrations/0001_create_notes.sql
+CREATE TABLE notes (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  body TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
+ <p>Migration files are the source of truth for schema evolution. Do not make undocumented dashboard-only schema edits and then forget to reproduce them in the project.</p>
+ <h3 class="subheading">KV: fast key-value lookups</h3>
+ <p>Workers KV is a distributed key-value store for data that is read frequently and can tolerate its documented eventual-consistency behavior. Common examples include public configuration, cached lookup data and feature flags. It is not a substitute for SQL joins, transactions or a strongly consistent account balance.</p>
+ <ol><li>Create a KV namespace in the dashboard or with Wrangler.</li><li>Add a binding to your Worker configuration, for example <code>SETTINGS</code>.</li><li>Use <code>env.SETTINGS.get()</code> and <code>put()</code> from server-side code, setting expiration or TTL where appropriate.</li><li>Keep secrets and private user data out of public/cacheable keys, and design invalidation and stale-data behavior.</li><li>Test misses, expired values, serialization and concurrent updates.</li></ol>
+ <h3 class="subheading">Durable Objects: coordinated state</h3>
+ <p>Durable Objects provide a unique, addressable coordination point with strongly consistent storage. They are useful for room-based collaboration, multiplayer sessions, WebSocket coordination, rate-limiting coordination and other workloads that need one authoritative state owner.</p>
+ <ol><li>Identify the state that needs a single coordinator, such as one chat room or one shared counter.</li><li>Design a stable object identity (for example, a room ID) so requests for the same logical room reach the same object.</li><li>Configure the Durable Object class, binding and any required migration in the current Wrangler configuration.</li><li>Implement validation and authorization inside the object; never assume that knowing an object ID grants permission.</li><li>Test concurrent requests, disconnects, retries, persistence and deployment migrations before production.</li></ol>
+ <h3 class="subheading">Queues: process work asynchronously</h3>
+ <p>Queues let a producer send a message for later processing by a consumer. Use them for tasks that should not hold up the original web request, such as email jobs, image processing, webhook follow-up work or batch tasks.</p>
+ <ol><li>Create a queue and configure producer/consumer bindings.</li><li>Define a small, versioned message schema. Do not place unnecessary sensitive information in messages.</li><li>Send the message after validating the original request.</li><li>Make the consumer idempotent because retries can cause a message to be processed more than once.</li><li>Set retry and dead-letter behavior, observe failures and provide a safe way to replay messages.</li></ol>
+ <div class="callout"><strong>Choosing quickly:</strong> D1 = relational SQL records; KV = distributed key/value lookup; Durable Objects = coordinated state; Queues = background work. They can work together, but each has its own limits, pricing and consistency model.</div>
+ <p class="source-note">Official guides: <a href="https://developers.cloudflare.com/d1/get-started/">D1 getting started ↗</a> · <a href="https://developers.cloudflare.com/d1/reference/migrations/">D1 migrations ↗</a> · <a href="https://developers.cloudflare.com/kv/">Workers KV ↗</a> · <a href="https://developers.cloudflare.com/durable-objects/">Durable Objects ↗</a> · <a href="https://developers.cloudflare.com/queues/">Queues ↗</a></p>
+</section>
+<section class="section tinted" id="ai">
+ <div class="section-heading"><p class="eyebrow">11 / AI on Cloudflare</p><h2>AI Gateway, Workers AI and Vectorize</h2><p>AI Gateway helps you observe and control model traffic. Workers AI runs supported models. Vectorize stores embeddings for semantic search. They are related, but they are not the same service.</p></div>
+ <h3 class="subheading">AI Gateway: observe and manage AI requests</h3>
+ <p>AI Gateway sits between your application and supported AI providers. It can provide analytics, request logging, caching, rate limiting, retries and related controls. It does not magically make every provider free, and it does not replace your application's authorization.</p>
+ <ol>
+  <li>Open AI Gateway in the Cloudflare dashboard and create a gateway with a recognizable name, such as <code>christech-learning</code>.</li>
+  <li>Choose the provider and model your application already uses, or follow the gateway's current integration instructions for the provider.</li>
+  <li>Update the server-side API URL/SDK configuration to route requests through that gateway. Keep provider API keys in Worker secrets or another server-side secret manager.</li>
+  <li>Send a small test prompt and verify that the request appears in the gateway's analytics/logs.</li>
+  <li>Enable caching only for requests where reuse is safe and appropriate. Be careful with personalized prompts, private data and responses that must always be fresh.</li>
+  <li>Set appropriate rate limits and retry behavior. Avoid retry storms, duplicated billable requests and overly generous limits for anonymous users.</li>
+  <li>Monitor request volume, tokens, errors and costs. Check log retention and privacy settings before sending personal or confidential data.</li>
+ </ol>
+ <p class="source-note">Official guide: <a href="https://developers.cloudflare.com/ai-gateway/">AI Gateway overview ↗</a> · <a href="https://developers.cloudflare.com/ai-gateway/reference/pricing/">AI Gateway pricing and logging ↗</a></p>
+ <h3 class="subheading">Workers AI: run supported AI models</h3>
+ <p>Workers AI lets your Worker call models available in Cloudflare's model catalog without you managing a GPU server. Model availability, context sizes, features, quotas and pricing can change, so check the current catalog before choosing a model.</p>
+ <ol>
+  <li>Create a Worker project using the Cloudflare starter or open your existing Worker project.</li>
+  <li>In the Wrangler configuration, add the Workers AI binding using the documented name (many examples use <code>AI</code>).</li>
+  <li>Call the chosen model from server-side Worker code through <code>env.AI</code>, following the model's required input and output schema.</li>
+  <li>Test with a short, non-sensitive prompt and handle errors, timeouts, invalid model output and usage limits.</li>
+  <li>Put authentication and per-user usage controls in front of public AI endpoints so anonymous visitors cannot consume unlimited resources.</li>
+  <li>Evaluate model quality for your actual task and language. Do not assume an AI answer is factually correct; validate important outputs and disclose limitations to users.</li>
+  <li>Deploy, test under expected traffic and monitor usage and costs.</li>
+ </ol>
+ <p class="source-note">Official guide: <a href="https://developers.cloudflare.com/workers-ai/get-started/">Workers AI getting started ↗</a> · <a href="https://developers.cloudflare.com/workers-ai/get-started/workers-wrangler/">Workers AI with Wrangler ↗</a></p>
+ <h3 class="subheading">Vectorize: semantic search and retrieval</h3>
+ <p>Vectorize is a vector database. An embedding model turns text or other supported inputs into arrays of numbers that represent semantic features. Vectorize stores and searches those vectors; it does not automatically store or secure all of the original documents for you.</p>
+ <ol>
+  <li>Decide what you need to search: product descriptions, help articles, course notes or documents.</li>
+  <li>Choose an embedding model and create a Vectorize index with the model's exact vector dimensions and a suitable similarity metric. Those index settings are fixed, so verify them before creating the production index.</li>
+  <li>Add the Vectorize binding and Workers AI binding to your Worker configuration.</li>
+  <li>Prepare clean source content and stable IDs. Generate embeddings for each document and upsert vectors with useful metadata.</li>
+  <li>For a search, embed the user's query using the same compatible embedding model and query the index for nearest matches.</li>
+  <li>Fetch the matched source text from an authorized database or object store, filter by the user's permissions, and then use the selected context in your application.</li>
+  <li>Evaluate relevance, stale-content removal, duplicate documents, metadata filters and access-control boundaries. Never let a vector match bypass document permissions.</li>
+ </ol>
+ <p>For retrieval-augmented generation (RAG), the common flow is: user question → query embedding → vector search → permission-filtered source passages → model prompt → answer with source references. Keep the original sources so the answer can be checked.</p>
+ <p class="source-note">Official guide: <a href="https://developers.cloudflare.com/vectorize/get-started/">Vectorize getting started ↗</a> · <a href="https://developers.cloudflare.com/vectorize/get-started/embeddings/">Vectorize with Workers AI embeddings ↗</a></p>
+ <h3 class="subheading">A sensible AI application architecture</h3>
+ <ol><li>The browser calls your authenticated Worker endpoint.</li><li>The Worker validates the user, request size, permissions and rate limits.</li><li>AI Gateway routes supported provider traffic and provides monitoring controls; Workers AI can run supported Cloudflare-hosted models.</li><li>Vectorize can retrieve relevant passages if your app needs semantic search.</li><li>D1 or R2 can store application records and original documents according to their access requirements.</li><li>The Worker returns a safe response and logs only what is necessary.</li></ol>
+ <div class="callout"><strong>AI safety:</strong> treat model output and retrieved documents as untrusted input. Protect against prompt injection, data leakage, excessive tool permissions, high-cost loops and requests that attempt to expose secrets. Require human review for consequential decisions.</div>
+</section>
+<section class="section" id="edge-tools">
+ <div class="section-heading"><p class="eyebrow">12 / More platform services</p><h2>Turnstile, Images, Stream, Hyperdrive, Browser Rendering and scheduled jobs</h2><p>These services solve specific problems. Start with the smallest tool that fits, and check feature availability and pricing before building around it.</p></div>
+ <h3 class="subheading">Turnstile: help protect forms from automated abuse</h3>
+ <ol><li>Create a Turnstile widget in the dashboard and add the intended hostnames.</li><li>Copy the public site key into the frontend widget. It is designed to be public.</li><li>Keep the secret key on the server in a Worker secret or protected environment variable.</li><li>When the form is submitted, send the token to your Worker and validate it server-side with Cloudflare's Siteverify endpoint.</li><li>Reject missing, invalid, expired or replayed tokens. Also validate the form and apply rate limits; Turnstile is one layer, not a complete anti-abuse system.</li><li>Test the real production hostname and failure path. Show a useful error if verification is unavailable, rather than silently accepting a failed check.</li></ol>
+ <p class="source-note"><a href="https://developers.cloudflare.com/turnstile/get-started/">Turnstile getting started ↗</a></p>
+ <h3 class="subheading">Images: image delivery and transformation</h3>
+ <p>Cloudflare Images can help manage and deliver images with transformations. Before using it, decide whether you need a managed image product, transformations for public images, or simply R2 storage for files. Uploading an image to R2 does not automatically grant the same transformation features as Cloudflare Images.</p>
+ <ol><li>Choose the image workflow and review current product pricing and limits.</li><li>Configure permitted upload paths and authorization if users upload images.</li><li>Use appropriate responsive sizes and formats, and provide alt text in your website content.</li><li>Test caching, access to private images, and image delivery on mobile networks.</li></ol>
+ <p class="source-note"><a href="https://developers.cloudflare.com/images/">Cloudflare Images documentation ↗</a></p>
+ <h3 class="subheading">Stream: host and deliver video</h3>
+ <p>Stream is designed for video upload, storage, encoding and delivery. It is different from simply placing an MP4 in R2. Use access controls or signed playback when the video should not be public, and review encoding, storage and delivery costs before launching a video-heavy product.</p>
+ <p class="source-note"><a href="https://developers.cloudflare.com/stream/">Cloudflare Stream documentation ↗</a></p>
+ <h3 class="subheading">Hyperdrive: connect to an existing database</h3>
+ <p>Hyperdrive helps Workers connect to supported external PostgreSQL or MySQL databases with connection pooling and related optimizations. It is not itself a database. Use it when you already have a compatible database and need to connect from Workers; use D1 when its SQL model and limits fit your app better.</p>
+ <ol><li>Confirm your external database engine, network access, TLS requirements and credentials.</li><li>Create a Hyperdrive configuration in the dashboard or with the current Wrangler CLI.</li><li>Store database credentials securely and configure the binding using the generated settings.</li><li>Use a compatible database driver and follow the current Workers compatibility instructions.</li><li>Test migrations, connection handling, query performance, database permissions and failure behavior.</li></ol>
+ <p class="source-note"><a href="https://developers.cloudflare.com/hyperdrive/">Hyperdrive documentation ↗</a></p>
+ <h3 class="subheading">Browser Rendering: controlled browser automation</h3>
+ <p>Browser Rendering provides browser-based automation capabilities for supported tasks such as rendering pages, screenshots and browser-driven workflows. It is not a reason to expose a public endpoint that lets anyone navigate arbitrary websites. Restrict who can trigger jobs, validate targets, set limits and review the provider's acceptable-use and security guidance.</p>
+ <p class="source-note"><a href="https://developers.cloudflare.com/browser-rendering/">Browser Rendering documentation ↗</a></p>
+ <h3 class="subheading">Cron Triggers: run work on a schedule</h3>
+ <p>Cron Triggers can invoke a Worker on a schedule for tasks such as periodic cleanup, summaries or synchronization. Configure the schedule in the Worker configuration, deploy it, and inspect execution logs. Schedules are generally defined in UTC, so convert carefully when planning local Kenyan time. Make scheduled tasks idempotent and safe to retry.</p>
+ <p class="source-note"><a href="https://developers.cloudflare.com/workers/configuration/cron-triggers/">Cron Triggers documentation ↗</a></p>
+ <h3 class="subheading">WAF, rate limiting and caching</h3>
+ <p>Cloudflare's network features can help protect and accelerate websites. Begin by understanding which DNS records are proxied, then review security events and caching behavior. Add WAF/custom rules and rate limits carefully; a broad rule can block legitimate users or APIs. Do not cache private account pages or personalized API responses as public content.</p>
+ <p class="source-note"><a href="https://developers.cloudflare.com/waf/">WAF documentation ↗</a> · <a href="https://developers.cloudflare.com/cache/">Cache documentation ↗</a> · <a href="https://developers.cloudflare.com/waiting-room/">Waiting Room documentation ↗</a></p>
+</section>
+
 <section class="section tinted" id="resources">
     <div class="section-heading"><p class="eyebrow">07 / Official references</p><h2>Keep the documentation close</h2><p>Cloudflare updates its dashboard and supported framework workflows. Use official documentation to verify the exact steps for your project.</p></div>
     <div class="resource-list">
@@ -208,6 +359,20 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
       <a href="https://developers.cloudflare.com/workers/configuration/secrets/">Workers secrets <span>↗</span></a>
       <a href="https://developers.cloudflare.com/pages/configuration/custom-domains/">Pages custom domains <span>↗</span></a>
       <a href="https://developers.cloudflare.com/dns/">Cloudflare DNS documentation <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/r2/get-started/">R2 object storage <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/d1/get-started/">D1 SQL database <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/ai-gateway/">AI Gateway <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/workers-ai/get-started/">Workers AI <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/vectorize/get-started/">Vectorize vector database <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/kv/">Workers KV <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/durable-objects/">Durable Objects <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/queues/">Cloudflare Queues <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/turnstile/get-started/">Turnstile bot protection <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/hyperdrive/">Hyperdrive database connections <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/stream/">Cloudflare Stream video <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/images/">Cloudflare Images <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/browser-rendering/">Browser Rendering <span>↗</span></a>
+ <a href="https://developers.cloudflare.com/workers/configuration/cron-triggers/">Cron Triggers <span>↗</span></a>
  <a href="https://developers.cloudflare.com/email-service/">Cloudflare Email Service and routing <span>↗</span></a>
  <a href="https://developers.cloudflare.com/pages/how-to/web-analytics/">Cloudflare Web Analytics <span>↗</span></a>
     </div>
