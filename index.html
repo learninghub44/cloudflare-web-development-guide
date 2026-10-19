@@ -37,7 +37,7 @@
   <section class="contents-intro" id="contents" aria-labelledby="contents-title">
     <div class="contents-heading">
       <div><p class="eyebrow">Your roadmap</p><h2 id="contents-title">Choose your next step</h2><p>Browse the guide by topic. Start at the beginning if you are new, or open a chapter when you need a specific answer.</p></div>
-      <div class="contents-meta"><span class="contents-meta-number">13</span><span>chapters<br>organized into 3 learning paths</span></div>
+      <div class="contents-meta"><span class="contents-meta-number">14</span><span>chapters<br>organized into 3 learning paths</span></div>
     </div>
     <div class="contents-feature-grid">
       <a class="contents-feature" href="#start"><span class="contents-feature-number">01</span><span><strong>Start here</strong><small>Understand the basics and choose your setup.</small></span><span class="contents-arrow">↗</span></a>
@@ -59,6 +59,7 @@
         <a href="#pages" data-toc-link><span>03</span> Publish a static site</a>
         <a href="#workers" data-toc-link><span>04</span> Workers and APIs</a>
         <a href="#frameworks" data-toc-link><span>05</span> Frameworks</a>
+        <a href="#hosting-models" data-toc-link><span>06</span> Servers, serverless and VPS</a>
         <p class="toc-group-label">LAUNCH & MAINTAIN</p>
         <a href="#production" data-toc-link><span>06</span> Domains and go live</a>
         <a href="#email" data-toc-link><span>07</span> Email and DNS records</a>
@@ -393,8 +394,45 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
  <p class="source-note"><a href="https://developers.cloudflare.com/waf/">WAF documentation ↗</a> | <a href="https://developers.cloudflare.com/cache/">Cache documentation ↗</a> | <a href="https://developers.cloudflare.com/waiting-room/">Waiting Room documentation ↗</a></p>
 </section>
 
+<section class="section tinted" id="hosting-models">
+  <div class="section-heading"><p class="eyebrow">06 / Hosting fundamentals</p><h2>Servers, serverless, Vercel and VPS</h2><p>Understand where your website runs, what the platform manages for you, and how to choose infrastructure that fits your project.</p></div>
+  <div class="callout"><strong>The key idea:</strong> every website is served by computers somewhere. “Serverless” does not mean there are no servers. It means the platform manages much of the server infrastructure so you can focus on your code.</div>
+  <h3 class="subheading">What is a server?</h3>
+  <p>A server is a computer or software system that responds to requests from other computers. When a visitor opens your website, their browser requests files or data, and a server sends back the response. Servers can be physical machines, virtual machines, or managed runtimes in a cloud platform.</p>
+  <p><strong>Think of it like a shop:</strong> the server is the shop, the website or service is what it provides, the browser is the customer, and the internet connects them.</p>
+  <h3 class="subheading">What does serverless mean?</h3>
+  <p>Serverless is a cloud computing model where the provider manages the underlying infrastructure and runs your code in a managed environment. You still use servers, but you generally do not administer their operating systems or maintain the machines directly.</p>
+  <ol><li>A visitor submits a form or requests an API.</li><li>A serverless function or Worker receives the request.</li><li>Your code validates the request and performs the required task.</li><li>The platform runs the code and returns a response.</li></ol>
+  <p>Serverless platforms can simplify operations, but they still have usage limits, execution constraints, quotas and pricing rules. Check the current plan details before relying on a service for production.</p>
+  <h3 class="subheading">What is Vercel?</h3>
+  <p>Vercel is a web development and deployment platform. You can connect a Git repository, deploy a website, create preview deployments, configure a domain and use supported server-side functions. It is especially convenient for many frontend and Next.js projects.</p>
+  <p><strong>Remember:</strong> Vercel is a platform, not another word for serverless. It combines hosting and deployment features with server-side compute options.</p>
+  <p class="source-note"><a href="https://vercel.com/docs">Official Vercel documentation ↗</a></p>
+  <h3 class="subheading">What is a VPS?</h3>
+  <p>A Virtual Private Server is a virtual machine hosted on a physical server. It usually gives you an operating system environment and allocated resources where you can install software such as Nginx, Node.js, Python, Docker or a database, subject to the provider's limits.</p>
+  <p>A VPS gives you more control, but also more responsibility. You need to plan updates, firewall rules, SSH access, backups, monitoring, secrets, recovery and security patches. A VPS is not automatically secure simply because it is virtual.</p>
+  <h3 class="subheading">Compare common hosting choices</h3>
+  <div class="table-wrap"><table><thead><tr><th>Option</th><th>Who manages the server?</th><th>Good fit</th><th>Main trade-off</th></tr></thead><tbody>
+  <tr><td><strong>Static hosting</strong></td><td>Provider manages delivery infrastructure</td><td>Portfolios, documentation, landing pages and static sites</td><td>Dynamic features need a backend or external service</td></tr>
+  <tr><td><strong>Serverless / edge functions</strong></td><td>Provider manages the runtime infrastructure</td><td>APIs, webhooks, request handlers and event-driven tasks</td><td>Runtime limits and provider-specific behavior</td></tr>
+  <tr><td><strong>Managed app platform</strong></td><td>Platform manages much of deployment and runtime</td><td>Web apps where easy deployment matters</td><td>Plan limits, platform conventions and possible lock-in</td></tr>
+  <tr><td><strong>VPS</strong></td><td>You manage the operating system and services</td><td>Long-running processes and custom configurations</td><td>Security, upgrades, monitoring and backups are your responsibility</td></tr>
+  <tr><td><strong>Dedicated server</strong></td><td>You manage the server unless separately managed</td><td>Workloads needing dedicated physical resources</td><td>More administration and often higher cost</td></tr>
+  <tr><td><strong>Managed database</strong></td><td>Database provider manages the database infrastructure</td><td>Apps needing persistent structured data</td><td>Database cost, limits, backups and access rules still matter</td></tr>
+  </tbody></table></div>
+  <h3 class="subheading">Where do containers and Kubernetes fit?</h3>
+  <p><strong>Containers</strong> package an application with its dependencies so it can run more consistently across environments. Docker is a widely used container tool. Containers can run on a VPS, cloud virtual machines or managed platforms.</p>
+  <p><strong>Kubernetes</strong> orchestrates containers across machines. It can be powerful for complex systems, but it adds operational complexity. Beginners and small projects usually should not start with Kubernetes unless they have a clear need.</p>
+  <h3 class="subheading">Choose based on what you are building</h3>
+  <ul class="plain-list"><li><strong>Portfolio or documentation:</strong> start with static hosting such as Cloudflare Pages or GitHub Pages.</li><li><strong>Frontend or supported Next.js app:</strong> Vercel can be convenient; compare framework support and costs with alternatives.</li><li><strong>APIs, webhooks or lightweight backend logic:</strong> consider Cloudflare Workers or another serverless platform.</li><li><strong>SaaS with accounts and persistent data:</strong> combine frontend hosting, a backend and a managed database where appropriate. These components can live on different providers.</li><li><strong>Long-running process or custom server setup:</strong> consider a VPS or a managed service designed for persistent workloads.</li></ul>
+  <div class="callout"><strong>Production checklist:</strong> before launch, understand where secrets are stored, how authentication is enforced, how data is backed up, how errors are monitored, what usage costs can grow, and how you will restore service after a failure.</div>
+  <h3 class="subheading">A short knowledge check</h3>
+  <ol><li>Does serverless mean there are no servers? <strong>No.</strong> The provider manages the underlying infrastructure.</li><li>What does VPS stand for? <strong>Virtual Private Server.</strong></li><li>Is Vercel the same thing as serverless? <strong>No.</strong> Vercel is a deployment platform with several capabilities.</li><li>Does a successful deployment guarantee the app is secure and fully functional? <strong>No.</strong> Test features, permissions, error handling, backups and production behavior.</li></ol>
+  <p class="source-note">Further reading: <a href="https://developers.cloudflare.com/workers/">Cloudflare Workers ↗</a> | <a href="https://vercel.com/docs">Vercel documentation ↗</a> | <a href="https://docs.docker.com/get-started/">Docker getting started ↗</a> | <a href="https://kubernetes.io/docs/concepts/overview/">Kubernetes overview ↗</a></p>
+</section>
+
 <section class="section tinted" id="resources">
-    <div class="section-heading"><p class="eyebrow">07 / Official references</p><h2>Keep the documentation close</h2><p>Cloudflare updates its dashboard and supported framework workflows. Use official documentation to verify the exact steps for your project.</p></div>
+    <div class="section-heading"><p class="eyebrow">14 / Official references</p><h2>Keep the documentation close</h2><p>Cloudflare updates its dashboard and supported framework workflows. Use official documentation to verify the exact steps for your project.</p></div>
     <div class="resource-list">
       <a href="https://developers.cloudflare.com/pages/">Cloudflare Pages overview <span>↗</span></a>
       <a href="https://developers.cloudflare.com/pages/framework-guides/deploy-anything/">Deploy static HTML to Pages <span>↗</span></a>
