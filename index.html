@@ -61,15 +61,15 @@
         <a href="#frameworks" data-toc-link><span>05</span> Frameworks</a>
         <a href="#hosting-models" data-toc-link><span>06</span> Servers, serverless and VPS</a>
         <p class="toc-group-label">LAUNCH & MAINTAIN</p>
-        <a href="#production" data-toc-link><span>06</span> Domains and go live</a>
-        <a href="#email" data-toc-link><span>07</span> Email and DNS records</a>
-        <a href="#operations" data-toc-link><span>08</span> SEO and operations</a>
+        <a href="#production" data-toc-link><span>07</span> Domains and go live</a>
+        <a href="#email" data-toc-link><span>08</span> Email and DNS records</a>
+        <a href="#operations" data-toc-link><span>09</span> SEO and operations</a>
         <p class="toc-group-label">CLOUDFLARE SERVICES</p>
-        <a href="#storage" data-toc-link><span>09</span> R2 object storage</a>
-        <a href="#data" data-toc-link><span>10</span> D1, KV and Queues</a>
-        <a href="#ai" data-toc-link><span>11</span> AI Gateway and AI tools</a>
-        <a href="#edge-tools" data-toc-link><span>12</span> Other Cloudflare services</a>
-        <a href="#resources" data-toc-link><span>13</span> Official resources</a>
+        <a href="#storage" data-toc-link><span>10</span> R2 object storage</a>
+        <a href="#data" data-toc-link><span>11</span> D1, KV and Queues</a>
+        <a href="#ai" data-toc-link><span>12</span> AI Gateway and AI tools</a>
+        <a href="#edge-tools" data-toc-link><span>13</span> Other Cloudflare services</a>
+        <a href="#resources" data-toc-link><span>14</span> Official resources</a>
         <a class="toc-support" href="#web-services">Need a website? Contact us</a>
       </nav>
       <p class="toc-sidebar-note">Made for learners and builders by <strong>Chris Odhiambo | Code Family</strong>.</p>
@@ -169,7 +169,7 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
   </section>
 
   <section class="section tinted" id="production">
-    <div class="section-heading"><p class="eyebrow">06 / Go live</p><h2>Domains, DNS, HTTPS and production checks</h2><p>A successful first deployment is the start. Make sure people can find the right site, use it safely and recover when something breaks.</p></div>
+    <div class="section-heading"><p class="eyebrow">07 / Go live</p><h2>Domains, DNS, HTTPS and production checks</h2><p>A successful first deployment is the start. Make sure people can find the right site, use it safely and recover when something breaks.</p></div>
     <h3>Connect a custom domain</h3>
     <ol><li>Own the domain or have permission from its owner.</li><li>Open the relevant Pages project or Worker and find custom-domain settings.</li><li>Add the exact hostname, such as <code>www.example.com</code> or <code>example.com</code>.</li><li>Follow the DNS instructions shown for that project and wait for validation/certificate setup.</li><li>Test HTTPS and decide which hostname should be canonical.</li></ol>
     <p>Do not delete DNS records just to make the website work. MX, SPF, DKIM and DMARC records may be needed for business email. DNS changes can affect services other than the website.</p>
@@ -189,7 +189,7 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
   </section>
 
   <section class="section tinted" id="email">
- <div class="section-heading"><p class="eyebrow">07 / Business email</p><h2>Email routing, domain records and sending mail</h2><p>Your website domain and your email service share DNS, but they are different services. Set up email deliberately so a website change does not break business email.</p></div>
+ <div class="section-heading"><p class="eyebrow">08 / Business email</p><h2>Email routing, domain records and sending mail</h2><p>Your website domain and your email service share DNS, but they are different services. Set up email deliberately so a website change does not break business email.</p></div>
  <div class="callout"><strong>Understand the difference:</strong> Cloudflare Email Routing forwards incoming messages sent to custom addresses (for example, <code>hello@yourdomain.com</code>) to an existing inbox. It is not, by itself, a full mailbox hosting service with a separate inbox, folders, IMAP/POP access, or a complete outbound email system.</div>
  <h3 class="subheading">A. Before you configure routing</h3>
  <ol>
@@ -228,7 +228,7 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
  <p class="source-note">Useful references: <a href="https://developers.cloudflare.com/email-service/">Cloudflare Email Service ↗</a> | <a href="https://developers.cloudflare.com/dns/">Cloudflare DNS ↗</a></p>
 </section>
 <section class="section" id="operations">
- <div class="section-heading"><p class="eyebrow">08 / Operating the site</p><h2>SEO, analytics, forms, performance and maintenance</h2><p>A professional website needs more than a successful deploy. Make it discoverable, measurable, accessible and maintainable.</p></div>
+ <div class="section-heading"><p class="eyebrow">09 / Operating the site</p><h2>SEO, analytics, forms, performance and maintenance</h2><p>A professional website needs more than a successful deploy. Make it discoverable, measurable, accessible and maintainable.</p></div>
  <h3 class="subheading">Search engine basics</h3>
  <ul class="plain-list"><li>Give each page a useful, unique title and meta description.</li><li>Use semantic headings, descriptive link text, image alt text and readable page content.</li><li>Add a valid <code>robots.txt</code> and sitemap when appropriate; submit the sitemap to search tools you use.</li><li>Use one preferred canonical hostname and redirect alternate versions consistently.</li><li>Do not hide important content in images or rely only on client-side scripts for essential information.</li></ul>
  <h3 class="subheading">Analytics and privacy</h3>
@@ -245,7 +245,7 @@ git push -u origin main</code></pre><p>Replace the sample URL with your own repo
 </section>
 
 <section class="section tinted" id="storage">
- <div class="section-heading"><p class="eyebrow">09 / Files and object storage</p><h2>R2: store images, documents, videos and downloads</h2><p>R2 is object storage. Think of it as a place for files your application needs to save and retrieve, rather than a folder that automatically appears inside your website.</p></div>
+ <div class="section-heading"><p class="eyebrow">10 / Files and object storage</p><h2>R2: store images, documents, videos and downloads</h2><p>R2 is object storage. Think of it as a place for files your application needs to save and retrieve, rather than a folder that automatically appears inside your website.</p></div>
  <div class="callout"><strong>Use R2 for:</strong> user uploads, product photos, PDF documents, generated reports, backups and large files. Do not use it as a relational database, and do not make private files public just to make the URLs work.</div>
  <h3 class="subheading">Create your first bucket</h3>
  <ol>
@@ -290,7 +290,7 @@ export default {
  <p class="source-note">Official guides: <a href="https://developers.cloudflare.com/r2/get-started/">R2 quick start ↗</a> | <a href="https://developers.cloudflare.com/r2/buckets/public-buckets/">Public buckets ↗</a> | <a href="https://developers.cloudflare.com/r2/api/s3/presigned-urls/">Presigned URLs ↗</a> | <a href="https://developers.cloudflare.com/r2/buckets/cors/">R2 CORS ↗</a></p>
 </section>
 <section class="section" id="data">
- <div class="section-heading"><p class="eyebrow">10 / Databases and state</p><h2>D1, KV, Durable Objects and Queues</h2><p>These tools solve different problems. Choose based on the data shape and consistency you need, not because every Cloudflare project must use every service.</p></div>
+ <div class="section-heading"><p class="eyebrow">11 / Databases and state</p><h2>D1, KV, Durable Objects and Queues</h2><p>These tools solve different problems. Choose based on the data shape and consistency you need, not because every Cloudflare project must use every service.</p></div>
  <h3 class="subheading">D1: a managed SQL database</h3>
  <p>D1 is a serverless SQL database built on SQLite. It is suitable for many small and medium application data models, such as users, products, posts, bookings and settings, when used within its documented limits.</p>
  <ol>
@@ -325,7 +325,7 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
  <p class="source-note">Official guides: <a href="https://developers.cloudflare.com/d1/get-started/">D1 getting started ↗</a> | <a href="https://developers.cloudflare.com/d1/reference/migrations/">D1 migrations ↗</a> | <a href="https://developers.cloudflare.com/kv/">Workers KV ↗</a> | <a href="https://developers.cloudflare.com/durable-objects/">Durable Objects ↗</a> | <a href="https://developers.cloudflare.com/queues/">Queues ↗</a></p>
 </section>
 <section class="section tinted" id="ai">
- <div class="section-heading"><p class="eyebrow">11 / AI on Cloudflare</p><h2>AI Gateway, Workers AI and Vectorize</h2><p>AI Gateway helps you observe and control model traffic. Workers AI runs supported models. Vectorize stores embeddings for semantic search. They are related, but they are not the same service.</p></div>
+ <div class="section-heading"><p class="eyebrow">12 / AI on Cloudflare</p><h2>AI Gateway, Workers AI and Vectorize</h2><p>AI Gateway helps you observe and control model traffic. Workers AI runs supported models. Vectorize stores embeddings for semantic search. They are related, but they are not the same service.</p></div>
  <h3 class="subheading">AI Gateway: observe and manage AI requests</h3>
  <p>AI Gateway sits between your application and supported AI providers. It can provide analytics, request logging, caching, rate limiting, retries and related controls. It does not magically make every provider free, and it does not replace your application's authorization.</p>
  <ol>
@@ -368,7 +368,7 @@ CREATE INDEX idx_notes_created_at ON notes(created_at);</code></pre>
  <div class="callout"><strong>AI safety:</strong> treat model output and retrieved documents as untrusted input. Protect against prompt injection, data leakage, excessive tool permissions, high-cost loops and requests that attempt to expose secrets. Require human review for consequential decisions.</div>
 </section>
 <section class="section" id="edge-tools">
- <div class="section-heading"><p class="eyebrow">12 / More platform services</p><h2>Turnstile, Images, Stream, Hyperdrive, Browser Rendering and scheduled jobs</h2><p>These services solve specific problems. Start with the smallest tool that fits, and check feature availability and pricing before building around it.</p></div>
+ <div class="section-heading"><p class="eyebrow">13 / More platform services</p><h2>Turnstile, Images, Stream, Hyperdrive, Browser Rendering and scheduled jobs</h2><p>These services solve specific problems. Start with the smallest tool that fits, and check feature availability and pricing before building around it.</p></div>
  <h3 class="subheading">Turnstile: help protect forms from automated abuse</h3>
  <ol><li>Create a Turnstile widget in the dashboard and add the intended hostnames.</li><li>Copy the public site key into the frontend widget. It is designed to be public.</li><li>Keep the secret key on the server in a Worker secret or protected environment variable.</li><li>When the form is submitted, send the token to your Worker and validate it server-side with Cloudflare's Siteverify endpoint.</li><li>Reject missing, invalid, expired or replayed tokens. Also validate the form and apply rate limits; Turnstile is one layer, not a complete anti-abuse system.</li><li>Test the real production hostname and failure path. Show a useful error if verification is unavailable, rather than silently accepting a failed check.</li></ol>
  <p class="source-note"><a href="https://developers.cloudflare.com/turnstile/get-started/">Turnstile getting started ↗</a></p>
